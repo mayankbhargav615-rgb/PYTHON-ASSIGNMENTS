@@ -1,0 +1,17 @@
+import random
+def guess_name():
+  number = random.randint(1,100)
+  guess=None
+  attempts=0
+
+  while guess!=number:
+    guess=int(input("Enter your number: "))
+    attempts+=1
+    if guess>number:
+      print("Too high")
+    elif guess<number:
+      print("Too low")
+    else:
+      print("Correct!")
+      print(f"you guessed it in {attempts} attempts.")
+guess_name()
