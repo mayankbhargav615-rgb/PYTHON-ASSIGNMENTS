@@ -1,0 +1,68 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+students = [f"Student_{i}" for i in range(1, 21)]
+
+data = {
+    "Name": students,
+    "Math": np.random.randint(50, 100, 20),
+    "Science": np.random.randint(45, 100, 20),
+    "English": np.random.randint(40, 100, 20),
+    "Computer": np.random.randint(50, 100, 20),
+    "History": np.random.randint(35, 100, 20)
+}
+
+df = pd.DataFrame(data)
+df.set_index("Name", inplace=True)
+
+mean_scores = df.mean()
+median_scores = df.median()
+std_dev = df.std()
+
+df["Total"] = df.sum(axis=1)
+
+top_students = df.sort_values(by="Total", ascending=False).head(3)
+low_students = df.sort_values(by="Total").head(3)
+
+print("\n=== Student Data ===\n", df)
+
+print("\n=== Mean Scores ===\n", mean_scores)
+print("\n=== Median Scores ===\n", median_scores)
+print("\n=== Standard Deviation ===\n", std_dev)
+
+print("\n=== Top Performers ===\n", top_students)
+print("\n=== Low Performers ===\n", low_students)
+
+plt.figure()
+mean_scores.plot(kind='bar')
+plt.title("Average Scores per Subject")
+plt.ylabel("Marks")
+plt.show()
+
+plt.figure()
+df.drop(columns="Total").T.plot()
+plt.title("Student Scores Across Subjects")
+plt.ylabel("Marks")
+plt.show()
+
+plt.figure()
+plt.hist(df["Math"], bins=10)
+plt.title("Distribution of Math Scores")
+plt.xlabel("Marks")
+plt.ylabel("Frequency")
+plt.show()
+
+plt.figure()
+mean_scores.plot(kind='pie', autopct='%1.1f%%')
+plt.title("Subject Contribution to Overall Performance")
+plt.ylabel("")
+plt.show()
+
+print("\n=== Insights ===")
+print("1. Subjects with highest average scores indicate strong performance.")
+print("2. High standard deviation shows inconsistent performance.")
+print("3. Top students perform consistently across subjects.")
+print("4. Low-performing students may need additional support.")
